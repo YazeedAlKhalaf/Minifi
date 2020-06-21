@@ -1,0 +1,10 @@
+storePassword=<password from previous step>
+keyPassword=<password from previous step>
+keyAlias=key
+storeFile=<location of the key store file, such as /Users/<user name>/key.jks>
+
+# 1. Remove the `.sample` from the file name to use it!
+# 2. You must have a key.jks file in the `android/app` directory, this will sign the app for you!
+# FYI: you can choose another location but it is better to put it in the app's directory, plus i have already made the configuration like this and edited the `.gitignore` to ignore the minifiKey.jks file
+# FYI: if this makes no sense, follow the flutter docs on publishing for android! 
+# Link: https://flutter.dev/docs/deployment/android

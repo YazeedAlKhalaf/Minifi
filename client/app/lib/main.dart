@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:minifi_app/src/managers/dialog_manager.dart';
+import 'package:minifi_app/src/locator.dart';
+import 'package:minifi_app/src/services/dialog_service.dart';
+import 'package:minifi_app/src/services/navigation_service.dart';
+import 'package:minifi_app/src/ui/router.dart';
+import 'package:minifi_app/src/ui/shared/app_colors.dart';
+import 'package:minifi_app/src/ui/views/startup_view.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
+
+  setupLocator();
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'URL Shortener App',
+      builder: (
+        BuildContext context,
+        Widget child,
+      ) {
+        return Navigator(
+          key: locator<DialogService>().dialogNavigationKey,
+          onGenerateRoute: (RouteSettings settings) {
+            return MaterialPageRoute(
+              builder: (BuildContext context) {
+                return DialogManager(
+                  child: child,
+                );
+              },
+            );
+          },
+        );
+      },
+      navigatorKey: locator<NavigationService>().navigationKey,
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        primaryColor: primaryColor,
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
+        primaryIconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      home: StartupView(),
+      onGenerateRoute: generateRoute,
+    );
+  }
+}
