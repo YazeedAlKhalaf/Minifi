@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:minifi_app/src/managers/dialog_manager.dart';
-import 'package:minifi_app/src/locator.dart';
-import 'package:minifi_app/src/services/dialog_service.dart';
-import 'package:minifi_app/src/services/navigation_service.dart';
-import 'package:minifi_app/src/ui/router.dart';
-import 'package:minifi_app/src/ui/shared/app_colors.dart';
-import 'package:minifi_app/src/ui/views/startup_view.dart';
+import 'package:logger/logger.dart';
+import 'package:minifi_app/src/app/generated/locator/locator.dart';
+import 'package:minifi_app/src/app/generated/router/router.gr.dart';
+import 'package:minifi_app/src/ui/global/app_colors.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-void main() {
+main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.portraitUp,
-  ]);
 
+  // Sets logging level
+  Logger.level = Level.debug;
+
+  // Register all the models and services before the app starts
   setupLocator();
 
+  // Runs the app :)
   runApp(MyApp());
 }
 
@@ -25,36 +23,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'URL Shortener App',
-      builder: (
-        BuildContext context,
-        Widget child,
-      ) {
-        return Navigator(
-          key: locator<DialogService>().dialogNavigationKey,
-          onGenerateRoute: (RouteSettings settings) {
-            return MaterialPageRoute(
-              builder: (BuildContext context) {
-                return DialogManager(
-                  child: child,
-                );
-              },
-            );
-          },
-        );
-      },
-      navigatorKey: locator<NavigationService>().navigationKey,
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+      title: 'Minifi',
+      initialRoute: Routes.startupViewRoute,
+      onGenerateRoute: Router().onGenerateRoute,
+      navigatorKey: locator<NavigationService>().navigatorKey,
+      theme: ThemeData.light().copyWith(
         primaryColor: primaryColor,
-        backgroundColor: backgroundColor,
-        scaffoldBackgroundColor: backgroundColor,
-        primaryIconTheme: IconThemeData(
-          color: Colors.black,
+        accentColor: accentColor,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: accentColor,
         ),
       ),
-      home: StartupView(),
-      onGenerateRoute: generateRoute,
     );
   }
 }

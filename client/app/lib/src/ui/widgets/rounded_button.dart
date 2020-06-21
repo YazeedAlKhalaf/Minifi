@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minifi_app/src/ui/shared/app_colors.dart';
+import 'package:minifi_app/src/ui/global/app_colors.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
