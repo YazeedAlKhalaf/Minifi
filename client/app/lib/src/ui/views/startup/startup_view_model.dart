@@ -12,6 +12,6 @@ class StartupViewModel extends CustomBaseViewModel {
   }
 
   Future navigateToHomeView() async {
-    await navigationService.pushNamedAndRemoveUntil(Routes.homeViewRoute);
+    await navigationService.pushNamedAndRemoveUntil(Routes.homeView);
   }
 }

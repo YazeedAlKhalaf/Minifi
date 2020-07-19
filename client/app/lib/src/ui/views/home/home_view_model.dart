@@ -9,14 +9,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewModel extends CustomBaseViewModel {
   navigateToAddShortUrlView() {
-    navigationService.navigateTo(Routes.addShortUrlViewRoute);
+    navigationService.navigateTo(Routes.addShortUrlView);
   }
 
   navigateToEditShortUrlView({
     @required ShortUrl shortUrl,
   }) {
     navigationService.navigateTo(
-      Routes.editShortUrlViewRoute,
+      Routes.editShortUrlView,
       arguments: EditShortUrlViewArguments(
         shortUrl: shortUrl,
       ),

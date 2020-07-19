@@ -4,75 +4,75 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:minifi_app/src/ui/views/startup/startup_view.dart';
-import 'package:minifi_app/src/ui/views/home/home_view.dart';
-import 'package:minifi_app/src/ui/views/add_shorturl/add_shorturl_view.dart';
-import 'package:minifi_app/src/ui/views/edit_shorturl/edit_shorturl_view.dart';
-import 'package:minifi_app/src/app/models/short_url.dart';
+// ignore_for_file: public_member_api_docs
 
-abstract class Routes {
-  static const startupViewRoute = '/';
-  static const homeViewRoute = '/home-view-route';
-  static const addShortUrlViewRoute = '/add-short-url-view-route';
-  static const editShortUrlViewRoute = '/edit-short-url-view-route';
-  static const all = {
-    startupViewRoute,
-    homeViewRoute,
-    addShortUrlViewRoute,
-    editShortUrlViewRoute,
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+
+import '../../../ui/views/add_shorturl/add_shorturl_view.dart';
+import '../../../ui/views/edit_shorturl/edit_shorturl_view.dart';
+import '../../../ui/views/home/home_view.dart';
+import '../../../ui/views/startup/startup_view.dart';
+import '../../models/short_url.dart';
+
+class Routes {
+  static const String startupView = '/';
+  static const String homeView = '/home-view';
+  static const String addShortUrlView = '/add-short-url-view';
+  static const String editShortUrlView = '/edit-short-url-view';
+  static const all = <String>{
+    startupView,
+    homeView,
+    addShortUrlView,
+    editShortUrlView,
   };
 }
 
 class Router extends RouterBase {
   @override
-  Set<String> get allRoutes => Routes.all;
-
-  @Deprecated('call ExtendedNavigator.ofRouter<Router>() directly')
-  static ExtendedNavigatorState get navigator =>
-      ExtendedNavigator.ofRouter<Router>();
-
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(Routes.startupView, page: StartupView),
+    RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.addShortUrlView, page: AddShortUrlView),
+    RouteDef(Routes.editShortUrlView, page: EditShortUrlView),
+  ];
   @override
-  Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-    switch (settings.name) {
-      case Routes.startupViewRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => StartupView(),
-          settings: settings,
-        );
-      case Routes.homeViewRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => HomeView(),
-          settings: settings,
-        );
-      case Routes.addShortUrlViewRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => AddShortUrlView(),
-          settings: settings,
-        );
-      case Routes.editShortUrlViewRoute:
-        if (hasInvalidArgs<EditShortUrlViewArguments>(args, isRequired: true)) {
-          return misTypedArgsRoute<EditShortUrlViewArguments>(args);
-        }
-        final typedArgs = args as EditShortUrlViewArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => EditShortUrlView(shortUrl: typedArgs.shortUrl),
-          settings: settings,
-        );
-      default:
-        return unknownRoutePage(settings.name);
-    }
-  }
+  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, AutoRouteFactory>{
+    StartupView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => StartupView(),
+        settings: data,
+      );
+    },
+    HomeView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HomeView(),
+        settings: data,
+      );
+    },
+    AddShortUrlView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AddShortUrlView(),
+        settings: data,
+      );
+    },
+    EditShortUrlView: (data) {
+      var args = data.getArgs<EditShortUrlViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EditShortUrlView(shortUrl: args.shortUrl),
+        settings: data,
+      );
+    },
+  };
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//EditShortUrlView arguments holder class
+/// EditShortUrlView arguments holder class
 class EditShortUrlViewArguments {
   final ShortUrl shortUrl;
   EditShortUrlViewArguments({@required this.shortUrl});
