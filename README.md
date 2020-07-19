@@ -16,6 +16,7 @@ This repo contains all things needed. It contains the server-side code and the c
 
 - [x] Node
 - [x] NPM
+- [x] Flutter
 
 ## The [Server-Side]
 
