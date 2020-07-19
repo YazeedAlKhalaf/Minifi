@@ -5,8 +5,6 @@
 ![forks_badge]
 ![issues_badge]
 
-#
-
 # Minifi App
 
 Minifi App is an app that I made using [Flutter](https://flutter.dev/) framework!
